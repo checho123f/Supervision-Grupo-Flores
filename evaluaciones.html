@@ -28,17 +28,29 @@
                 <option value="sucursal1">Sucursal 1</option>
                 <option value="sucursal2">Sucursal 2</option>
                 <option value="sucursal3">Sucursal 3</option>
-                <!-- Agrega más opciones según sea necesario -->
             </select>
 
             <label for="empleado">Empleado:</label>
             <select id="empleado">
-                <!-- Este select se llenará dinámicamente basado en la sucursal seleccionada -->
+                <option value="Carlos Ruiz">Carlos Ruiz</option>
+                <option value="María López">María López</option>
+                <option value="Juan Pérez">Juan Pérez</option>
             </select>
 
             <button id="btnEvaluar">Evaluar Empleado</button>
         </section>
     </main>
-    <script src="js/evaluaciones.js"></script>
+
+    <script>
+        document.getElementById("btnEvaluar").addEventListener("click", function() {
+            const selectedEmpleado = document.getElementById("empleado").value;
+            const sucursal = document.getElementById("sucursal").value;
+            if (selectedEmpleado && sucursal) {
+                window.location.href = `evaluacion_formulario.html?empleado=${selectedEmpleado}&sucursal=${sucursal}`;
+            } else {
+                alert("Por favor, seleccione un empleado y una sucursal.");
+            }
+        });
+    </script>
 </body>
 </html>

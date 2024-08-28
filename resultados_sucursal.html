@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resultado de Sucursales - Supervisión Grupo Flores</title>
+    <title>Resultados por Sucursal - Supervisión Grupo Flores</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <h1>Resultado de Sucursales</h1>
+        <h1>Resultados por Sucursal</h1>
         <nav>
             <ul>
                 <li><a href="dashboard.html">Inicio</a></li>
@@ -22,9 +22,44 @@
     </header>
     <main>
         <section>
-            <h2>Bienvenido a la Sección de Resultado de Sucursales</h2>
-            <p>Aquí puedes gestionar Resultado de Sucursales.</p>
+            <h2>Seleccione una Sucursal</h2>
+            <label for="sucursal">Sucursal:</label>
+            <select id="sucursal">
+                <option value="sucursal1">Sucursal 1</option>
+                <option value="sucursal2">Sucursal 2</option>
+                <option value="sucursal3">Sucursal 3</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
+            <button id="btnVerResultados">Ver Resultados</button>
+        </section>
+        <section id="resultados">
+            <!-- Aquí se mostrarán los resultados -->
         </section>
     </main>
+
+    <!-- Incluyendo Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Inicializando Firebase -->
+    <script>
+      // Configuración de Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyD3lG496QeoPLPte3uLntjyC7nAuAxBLdw",
+        authDomain: "supervisiongrupoflores.firebaseapp.com",
+        projectId: "supervisiongrupoflores",
+        storageBucket: "supervisiongrupoflores.appspot.com",
+        messagingSenderId: "135931962722",
+        appId: "1:135931962722:web:62dccc8fb57b86cb01383b",
+        measurementId: "G-CKH22ZV644"
+      };
+
+      // Inicializar Firebase
+      firebase.initializeApp(firebaseConfig);
+      const database = firebase.database();
+    </script>
+
+    <!-- Tu código personalizado -->
+    <script src="js/resultados_sucursal.js"></script>
 </body>
 </html>

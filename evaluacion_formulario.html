@@ -24,7 +24,6 @@
         <section>
             <h2>Evaluación de <span id="empleadoNombre"></span></h2>
             <form id="evaluacionForm">
-                <!-- Aquí se podrían agregar preguntas dinámicas según el formulario -->
                 <label for="puntualidad">Puntualidad:</label>
                 <input type="number" id="puntualidad" name="puntualidad" min="1" max="10" required>
 
@@ -41,29 +40,61 @@
             </form>
         </section>
     </main>
-    <script src="js/evaluacion_formulario.js"></script>
-    <script type="module">
-        // Import the functions you need from the SDKs you need
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-app.js";
-        import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.13.0/firebase-analytics.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
-        // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+
+    <!-- Incluyendo Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+    <!-- Inicializando Firebase -->
+    <script>
         const firebaseConfig = {
-          apiKey: "AIzaSyD3lG496QeoPLPte3uLntjyC7nAuAxBLdw",
-          authDomain: "supervisiongrupoflores.firebaseapp.com",
-          projectId: "supervisiongrupoflores",
-          storageBucket: "supervisiongrupoflores.appspot.com",
-          messagingSenderId: "135931962722",
-          appId: "1:135931962722:web:62dccc8fb57b86cb01383b",
-          measurementId: "G-CKH22ZV644"
+            apiKey: "AIzaSyD3lG496QeoPLPte3uLntjyC7nAuAxBLdw",
+            authDomain: "supervisiongrupoflores.firebaseapp.com",
+            projectId: "supervisiongrupoflores",
+            storageBucket: "supervisiongrupoflores.appspot.com",
+            messagingSenderId: "135931962722",
+            appId: "1:135931962722:web:62dccc8fb57b86cb01383b",
+            measurementId: "G-CKH22ZV644"
         };
-      
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(app);
-      </script>
+
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const empleado = urlParams.get("empleado");
+            const sucursal = urlParams.get("sucursal");
+
+            const empleadoNombre = document.getElementById("empleadoNombre");
+            empleadoNombre.textContent = empleado;
+
+            if (!sucursal) {
+                console.error("Sucursal no definida. Verifica que la sucursal se esté pasando correctamente en la URL.");
+                return;
+            }
+
+            const evaluacionForm = document.getElementById("evaluacionForm");
+            evaluacionForm.addEventListener("submit", function(event) {
+                event.preventDefault();
+
+                const formData = new FormData(evaluacionForm);
+                const evaluacionData = {};
+
+                formData.forEach((value, key) => {
+                    evaluacionData[key] = value;
+                });
+
+                database.ref(`evaluaciones/${sucursal}/${empleado}`).push(evaluacionData)
+                .then(() => {
+                    alert("Evaluación guardada correctamente.");
+                    window.location.href = "dashboard.html";
+                })
+                .catch((error) => {
+                    console.error("Error al guardar la evaluación: ", error);
+                    alert("Hubo un error al guardar la evaluación. Por favor, inténtelo de nuevo.");
+                });
+            });
+        });
+    </script>
 </body>
 </html>
